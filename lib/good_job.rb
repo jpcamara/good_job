@@ -258,6 +258,16 @@ module GoodJob
     end
   end
 
+  def self.thread_running?
+    scheduler = Thread.current[:good_job_scheduler]
+    scheduler ? scheduler.running? : true
+  end
+
+  def self.thread_shutting_down?
+    scheduler = Thread.current[:good_job_scheduler]
+    scheduler && !scheduler.running?
+  end
+
   # Deprecator for providing deprecation warnings.
   # @return [ActiveSupport::Deprecation]
   def self.deprecator
